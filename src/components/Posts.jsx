@@ -1,31 +1,75 @@
+import { useState } from "react";
+import data from "./data/Data";
+
 function Posts() {
+  const [likes, setLikes] = useState(data.map((item) => item.likes));
+
+  // const handleLike = (index) => {
+  //   const newLikes = [...likes];
+  //   newLikes[index] += 1;
+  //   setLikes(newLikes);
+  // };
+
+  // const handleDislike = (index) => {
+  //   if (likes[index] > 0) {
+  //     const newLikes = [...likes];
+  //     newLikes[index] -= 1;
+  //     setLikes(newLikes);
+  //   }
+  // };
+
   return (
     <div class="app-wrapper">
-      <h1 class="app-title">Posts</h1>
-      <div class="post-list">
-        <div class="post-item">
+      {data.map((item, index) => (
+        <div key={index} class="post-item">
           <div class="post-header">
-            <h2>Post Title #1</h2>
+            <h2>{item.title}</h2>
             <div class="post-social-media-stats">
               <span class="stats-topic">Likes: </span>
-              <span class="post-likes">10</span>
+              <span class="post-likes">{likes[index]}</span>
             </div>
           </div>
-          <p class="post-content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-            vel turpis vestibulum, aliquet ipsum vitae, auctor risus. Morbi
-            tincidunt, leo non molestie consectetur, elit libero faucibus
-            tellus, sed fringilla tortor libero sit amet odio. Maecenas sed ante
-            condimentum mauris euismod pellentesque eu eu justo...
-          </p>
+          <p class="post-content">{item.content}</p>
           <div class="post-actions">
-            <button class="like-button">Like</button>
-            <button class="dislike-button">Dislike</button>
+            <button
+              class="like-button"
+              onClick={() =>
+                setLikes(likes.toSpliced(index, 1, likes[index] + 1))
+              }
+            >
+              {/* อ่านและทำสำเนาใหม่ คิดว่าเป็นvalue */}
+              Like
+            </button>
+            <button
+              class="dislike-button"
+              onClick={() =>
+                likes[index] > 0
+                  ? setLikes(likes.toSpliced(index, 1, likes[index] - 1))
+                  : null
+              }
+            >
+              Dislike
+            </button>
           </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
 
 export default Posts;
+
+{
+  /* <div class="post-item">
+  <div class="post-header" style={{ display: "flex", flexDirection: "column" }}>
+    <h2>Post Title {item.id}</h2>
+    <h1 class="app-title">{item.title}</h1>
+
+    <div> 
+      <h2></h2>
+      <p>{item.content}</p>
+      <p>Likes: {item.likes}</p>
+    </div>
+  </div>
+</div>; */
+}
